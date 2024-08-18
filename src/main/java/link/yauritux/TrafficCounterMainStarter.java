@@ -6,6 +6,8 @@ import link.yauritux.application.TrafficCounterApplication;
 import link.yauritux.domain.repository.TrafficRecordRepository;
 import link.yauritux.domain.service.TrafficRecordService;
 
+import java.nio.file.Paths;
+
 /**
  * @author Yauri Attamimi (yaurigneel@gmail.com)
  * @version 1.0

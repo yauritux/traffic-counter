@@ -6,13 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Yauri Attamimi (yaurigneel@gmail.com)
@@ -29,17 +30,19 @@ public class FileTrafficRecordRepository implements TrafficRecordRepository {
     public List<TrafficRecord> findAll() {
         List<TrafficRecord> records = new ArrayList<>();
         try {
-            List<String> lines = Files.readAllLines(Paths.get(ClassLoader.getSystemResource(filePath).getPath()));
-            for (String line : lines) {
+            var br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/" + filePath))));
+            String line = br.readLine();
+            while (line != null) {
                 String[] parts = line.split(" ");
                 LocalDateTime timestamp = LocalDateTime.parse(parts[0], DateTimeFormatter.ISO_DATE_TIME);
                 int carCount = Integer.parseInt(parts[1]);
                 records.add(new TrafficRecord(timestamp, carCount));
+                line = br.readLine();
             }
         } catch (IOException e) {
             logger.error("Failed to read traffic records from file {}", filePath);
         } catch (Exception e) {
-            logger.error("Failed to read traffic records from file {}.Reason: {}", filePath, e.getMessage());
+            logger.error("Failed to read traffic records from file {}. Reason: {}", filePath, e.getMessage());
         }
 
         return records;
