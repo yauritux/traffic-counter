@@ -20,6 +20,8 @@ We build this application by following what known as `Hexagonal Architecture`.
 The reason for chosing this particular layered-architecture because we're looking to protect 
 our business logic within the `domain` layer regardless of its application interface or any infrastructure layers such as database, framework, etc.
 
+![traffic-counter-arch.png](traffic-counter-arch.png)
+
 ## Prequisites
 
 - Java 17
