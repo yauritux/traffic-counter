@@ -20,7 +20,7 @@ public class TrafficRecordServiceImpl implements TrafficRecordService {
 
     @Override
     public int totalCarsSeen() {
-        return 0;
+        return trafficRecordRepository.findAll().stream().mapToInt(TrafficRecord::carCount).sum();
     }
 
     @Override
