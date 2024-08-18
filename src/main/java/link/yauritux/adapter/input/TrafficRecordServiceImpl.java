@@ -6,6 +6,7 @@ import link.yauritux.domain.service.TrafficRecordService;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,7 +36,10 @@ public class TrafficRecordServiceImpl implements TrafficRecordService {
 
     @Override
     public List<TrafficRecord> top3HalfHours() {
-        return List.of();
+        return trafficRecordRepository.findAll().stream()
+                .sorted(Comparator.comparingInt(TrafficRecord::carCount).reversed())
+                .limit(3)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -45,6 +45,16 @@ public class TrafficServiceImplTest {
         assertEquals(55, carsPerDay.get(LocalDate.of(2024, 8, 18)));
     }
 
+    @Test
+    void testTop3HalfHours() {
+        when(trafficRecordRepository.findAll()).thenReturn(mockTrafficRecords());
+
+        List<TrafficRecord> top3 = trafficRecordService.top3HalfHours();
+        assertEquals(40, top3.get(0).carCount());
+        assertEquals(35, top3.get(1).carCount());
+        assertEquals(30, top3.get(2).carCount());
+    }
+
     private List<TrafficRecord> mockTrafficRecords() {
         return Arrays.asList(
                 new TrafficRecord(LocalDateTime.parse("2024-08-17T00:00:00"), 20),
