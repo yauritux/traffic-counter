@@ -27,4 +27,12 @@ public class FileTrafficRepositoryTest {
         assertEquals(LocalDateTime.parse("2021-12-01T08:00:00"), records.get(6).timestamp());
         assertEquals(42, records.get(6).carCount());
     }
+
+    @Test
+    void testFindAll_fileNotFound() {
+        FileTrafficRecordRepository repository = new FileTrafficRecordRepository("traffic.csv");
+        List<TrafficRecord> records = repository.findAll();
+
+        assertEquals(0, records.size());
+    }
 }

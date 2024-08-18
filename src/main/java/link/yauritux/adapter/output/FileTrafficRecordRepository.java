@@ -3,6 +3,8 @@ package link.yauritux.adapter.output;
 import link.yauritux.domain.model.TrafficRecord;
 import link.yauritux.domain.repository.TrafficRecordRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileTrafficRecordRepository implements TrafficRecordRepository {
 
+    private static final Logger logger = LogManager.getLogger(FileTrafficRecordRepository.class);
+
     private final String filePath;
 
     @Override
@@ -33,7 +37,9 @@ public class FileTrafficRecordRepository implements TrafficRecordRepository {
                 records.add(new TrafficRecord(timestamp, carCount));
             }
         } catch (IOException e) {
-            System.err.println("File not found: " + e.getMessage());
+            logger.error("Failed to read traffic records from file {}", filePath);
+        } catch (Exception e) {
+            logger.error("Failed to read traffic records from file {}.Reason: {}", filePath, e.getMessage());
         }
 
         return records;
