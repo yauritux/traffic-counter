@@ -6,6 +6,7 @@ import link.yauritux.domain.service.TrafficRecordService;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,20 @@ public class TrafficRecordServiceImpl implements TrafficRecordService {
 
     @Override
     public List<TrafficRecord> leastCarsIn1_5Hours() {
-        return List.of();
+        List<TrafficRecord> records = trafficRecordRepository.findAll();
+        int minCars = Integer.MAX_VALUE;
+        List<TrafficRecord> minPeriod = new ArrayList<>();
+
+        for (int i = 0; i <= records.size() - 3; i++) {
+            int carsInPeriod = records.get(i).carCount() +
+                    records.get(i + 1).carCount() +
+                    records.get(i + 2).carCount();
+            if (carsInPeriod < minCars) {
+                minCars = carsInPeriod;
+                minPeriod = records.subList(i, i + 3);
+            }
+        }
+
+        return minPeriod;
     }
 }
