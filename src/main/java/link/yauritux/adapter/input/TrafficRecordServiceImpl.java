@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Yauri Attamimi (yaurigneel@gmail.com)
@@ -25,7 +26,11 @@ public class TrafficRecordServiceImpl implements TrafficRecordService {
 
     @Override
     public Map<LocalDate, Integer> carsPerDay() {
-        return Map.of();
+        return trafficRecordRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                        record -> record.timestamp().toLocalDate(),
+                        Collectors.summingInt(TrafficRecord::carCount)
+                ));
     }
 
     @Override

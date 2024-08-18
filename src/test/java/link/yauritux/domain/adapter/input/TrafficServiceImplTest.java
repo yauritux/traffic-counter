@@ -9,9 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -32,6 +34,15 @@ public class TrafficServiceImplTest {
     void testTotalCarsSeen() {
         when(trafficRecordRepository.findAll()).thenReturn(mockTrafficRecords());
         assertEquals(175, trafficRecordService.totalCarsSeen());
+    }
+
+    @Test
+    void testCarsPerDay() {
+        when(trafficRecordRepository.findAll()).thenReturn(mockTrafficRecords());
+
+        Map<LocalDate, Integer> carsPerDay = trafficRecordService.carsPerDay();
+        assertEquals(120, carsPerDay.get(LocalDate.of(2024, 8, 17)));
+        assertEquals(55, carsPerDay.get(LocalDate.of(2024, 8, 18)));
     }
 
     private List<TrafficRecord> mockTrafficRecords() {
