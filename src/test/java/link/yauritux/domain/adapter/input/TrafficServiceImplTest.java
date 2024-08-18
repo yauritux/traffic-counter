@@ -1,5 +1,6 @@
-package link.yauritux.domain.service;
+package link.yauritux.domain.adapter.input;
 
+import link.yauritux.adapter.input.TrafficRecordServiceImpl;
 import link.yauritux.domain.model.TrafficRecord;
 import link.yauritux.domain.repository.TrafficRecordRepository;
 import org.junit.jupiter.api.Test;
@@ -20,10 +21,10 @@ import static org.mockito.Mockito.when;
  * @version 1.0
  */
 @ExtendWith(MockitoExtension.class)
-public class TrafficServiceTest {
+public class TrafficServiceImplTest {
 
     @InjectMocks
-    private TrafficRecordService trafficRecordService;
+    private TrafficRecordServiceImpl trafficRecordService;
     @Mock
     private TrafficRecordRepository trafficRecordRepository;
 
